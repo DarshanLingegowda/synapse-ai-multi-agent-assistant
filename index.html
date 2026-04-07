@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Agent Productivity Assistant</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.app{display:grid;grid-template-columns:230px 1fr;grid-template-rows:52px 1fr;height:100vh}
+.topbar{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid #1e293b;background:#0f172a}
+.topbar-logo{font-size:20px}
+.topbar-title{font-size:15px;font-weight:600;color:#f1f5f9}
+.badge{font-size:11px;padding:2px 9px;border-radius:99px;border:1px solid #334155;color:#94a3b8;background:#1e293b}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:5px}
+.sidebar{border-right:1px solid #1e293b;padding:12px 10px;display:flex;flex-direction:column;gap:5px;overflow-y:auto;background:#0f172a}
+.s-label{font-size:10px;color:#475569;padding:8px 6px 3px;text-transform:uppercase}
+.agent-card{padding:9px 11px;border-radius:8px;border:1px solid #1e293b;background:#1e293b}
+.a-name{font-size:13px}
+.main{display:flex;flex-direction:column}
+.chat-area{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;flex-direction:column;max-width:88%}
+.msg.user{align-self:flex-end}
+.msg.assistant{align-self:flex-start}
+.bubble{padding:10px 14px;border-radius:12px;font-size:13px;background:#1e293b;border:1px solid #334155;white-space:pre-wrap}
+.input-bar{padding:12px 16px;border-top:1px solid #1e293b;display:flex;gap:8px}
+.input-bar input{flex:1;padding:9px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:white}
+.send-btn{padding:9px 18px;border-radius:10px;background:#1e3a5f;color:#93c5fd;border:none}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<div class="topbar">
+  <span class="topbar-logo">🤖</span>
+  <span class="topbar-title">Multi-Agent Productivity Assistant</span>
+  <span class="badge">Demo Mode</span>
+</div>
+
+<div class="sidebar">
+  <div class="s-label">Agents</div>
+  <div class="agent-card"><div class="a-name">🧠 Orchestrator</div></div>
+  <div class="agent-card"><div class="a-name">📅 Calendar</div></div>
+  <div class="agent-card"><div class="a-name">✅ Tasks</div></div>
+  <div class="agent-card"><div class="a-name">📝 Notes</div></div>
+  <div class="agent-card"><div class="a-name">📧 Email</div></div>
+</div>
+
+<div class="main">
+  <div class="chat-area" id="chat-area"></div>
+
+  <div class="input-bar">
+    <input id="user-input" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')sendMsg()" />
+    <button class="send-btn" onclick="sendMsg()">Send</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function addMsg(role, text) {
+  const area = document.getElementById('chat-area');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerText = text;
+  div.appendChild(bubble);
+  area.appendChild(div);
+}
+
+async function sendMsg() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  addMsg('user', text);
+
+  const res = await fetch("/query", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({input:text})
+  });
+
+  const data = await res.json();
+
+  let reply = "";
+
+  if (data.tasks) reply += "Tasks:\n- " + data.tasks.join("\n- ") + "\n\n";
+  if (data.calendar) reply += "Calendar:\n- " + data.calendar.join("\n- ") + "\n\n";
+  if (data.email_summary) reply += "Emails:\n" + data.email_summary + "\n\n";
+  if (data.notes) reply += "Notes:\n" + data.notes + "\n\n";
+
+  addMsg('assistant', reply);
+}
+</script>
+
+</body>
+</html>
