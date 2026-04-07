@@ -50,3 +50,63 @@ It demonstrates how an orchestrator agent can coordinate multiple specialized ag
 ## 🎯 Example Workflow
 
 **Input:**
+Plan my day
+**Output:**
+- Task list generated  
+- Calendar events scheduled  
+- Email summary provided  
+- Notes added  
+
+---
+
+## 🧩 How It Works
+
+1. User sends a request
+2. Orchestrator interprets intent
+3. Relevant agents are triggered
+4. Agents return structured outputs
+5. Results are combined and displayed
+
+---
+
+## 🚀 Running Locally
+
+```bash
+pip install fastapi uvicorn
+python -m uvicorn main:app --reload
+
+Open browser:
+
+http://127.0.0.1:8000
+📦 Deployment
+
+Deployed using Google Cloud Run:
+
+gcloud builds submit --tag gcr.io/<PROJECT-ID>/synapse-ai
+gcloud run deploy synapse-ai \
+  --image gcr.io/<PROJECT-ID>/synapse-ai \
+  --allow-unauthenticated
+📌 Future Improvements
+Integration with real LLMs (Gemini / GPT)
+MCP-based tool integrations (Google Calendar, Gmail)
+Persistent database storage
+Enhanced UI/UX
+Agent memory and context awareness
+👤 Author
+
+Darshan Linge Gowda
+
+🏁 Project Goal
+
+To demonstrate coordination between multiple AI agents, tools, and data sources in a real-world productivity workflow.
+
+
+---
+
+
+
+.
+
+
+
+
