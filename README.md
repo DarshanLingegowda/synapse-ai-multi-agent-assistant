@@ -1,2 +1,52 @@
-# synapse-ai-multi-agent-assistant
-Multi-agent AI productivity assistant with orchestrator-based task, calendar, notes, and email agents — deployed on Google Cloud Run.
+# 🚀 Synapse AI – Multi-Agent Productivity Assistant
+
+Synapse AI is a multi-agent AI system designed to help users manage tasks, schedules, notes, and emails through a unified conversational interface.
+
+It demonstrates how an orchestrator agent can coordinate multiple specialized agents to complete real-world workflows.
+
+---
+
+## 🧠 Architecture Overview
+
+- **Orchestrator Agent**
+  - Understands user intent
+  - Routes tasks to appropriate sub-agents
+
+- **Sub-Agents**
+  - 📅 Calendar Agent – Handles scheduling and events
+  - ✅ Task Agent – Creates and manages tasks
+  - 📝 Notes Agent – Stores and retrieves notes
+  - 📧 Email Agent – Summarizes and prioritizes emails
+
+---
+
+## ⚙️ Features
+
+- Multi-agent coordination
+- Task, calendar, notes, and email management
+- Multi-step workflow execution
+- Structured responses from agents
+- API-based backend (FastAPI)
+- Deployed on Google Cloud Run
+- No API key required (demo-ready)
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** HTML, CSS, JavaScript  
+- **Backend:** FastAPI (Python)  
+- **Deployment:** Google Cloud Run  
+- **Architecture:** Multi-Agent System  
+
+---
+
+## 🌐 Live Demo
+
+👉 https://synapse-ai-104265193628.asia-south1.run.app/
+
+---
+
+## 🎯 Example Workflow
+
+**Input:**
